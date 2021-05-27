@@ -20,6 +20,8 @@
     "@angular/platform-browser": "~11.2.13",
     "@angular/platform-browser-dynamic": "~11.2.13",
     "@angular/router": "~11.2.13",
+    "ng2-completer": "^9.0.1",
+    "ng2-smart-table": "^1.7.2",
     "ngx-json-viewer": "^3.0.2",
     "ngx-spinner": "^11.0.1",
     "rxjs": "~6.6.0",

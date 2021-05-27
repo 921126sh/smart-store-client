@@ -48,13 +48,23 @@
             <li class="nav-item" (click)="selected = 15">
                 <a class="nav-link" [class.active]="selected == 15" href="#">교환보류중상품_교환보류해제처리</a>
             </li>
+            <li class="nav-item" (click)="selected = 16">
+                <a class="nav-link" [class.active]="selected == 16" href="#" (click)="excute('StoreLogsLists', {
+                    })">성공로그목록</a>
+            </li>
+            <li class="nav-item" (click)="selected = 17">
+                <a class="nav-link" [class.active]="selected == 17" href="#" (click)="excute('StoreLogsLists', {
+                    })">실패로그목록</a>
+            </li>
         </ul>
     </div>
+
+    <hr />
     <div class="row">
-        <div class="col-6">
+        <div class="col-6" *ngIf="selected < 16">
             <div class="col-12">
                 <h4>상품주문번호*</h4>
-                <input #input type="text" class="form-control" />
+                <input #input placeholder="상품주문번호를 입력하세요." type="text" class="form-control" />
             </div>
             <div *ngIf="selected == 1" class="col-11">
                 <div class="col-12">
@@ -101,7 +111,7 @@
                     </div>
                     <div class="col-12">
                         <h4>발송지연상세이유</h4>
-                        <textarea #input23 class="form-control" rows="3"></textarea>
+                        <textarea placeholder="사유를 입력하세요." #input23 class="form-control" rows="3"></textarea>
                     </div>
                     <button type="button" class="btn btn-primary" (click)="excute('DelayProductOrder', {
                         'ProductOrderID': input.value,
@@ -113,24 +123,58 @@
             </div>
             <div *ngIf="selected == 3" class="col-11">
                 <div class="col-12">
-                    <h4>발송지연상사유코드*</h4>
+                    <h4>배송방법코드*</h4>
                     <select class="form-select" #input31>
-                        <option value="PRODUCT_UNSATISFIED" selected>서비스 및 상품 불만족</option>
-                        <option value="DELAYED_DELIVERY"> 배송 지연</option>
-                        <option value="SOLD_OUT"> 상품 품절</option>
-                        <option value="INTENT_CHANGED"> 구매 의사 취소</option>
-                        <option value="COLOR_AND_SIZE"> 색상 및 사이즈 변경</option>
-                        <option value="WRONG_ORDER"> 다른 상품 잘못 주문</option>
-                        <option value="PRODUCT_UNSATISFIED"> 서비스 및 상품 불만족</option>
-                        <option value="DELAYED_DELIVERY"> 배송 지연</option>
-                        <option value="SOLD_OUT"> 상품 품절</option>
+                        <option value="DELIVERY" selected>택배, 등기, 소포</option>
+                        <option value="VISIT_RECEIPT">방문수령</option>
+                        <option value="DIRECT_DELIVERY">직접전달</option>
+                        <option value="QUICK_SVC">퀵서비스</option>
+                        <option value="NOTHING_SIZE">배송없음</option>
+                        <option value="RETURN_DESIGNATED">지정반품 택배반송</option>
+                        <option value="RETURN_DELIVERY">일반반품택배</option>
+                        <option value="RETURN_INDIVIDUAL">직접반송</option>
                     </select>
                 </div>
-                *판매 취소 시 사용 가능: 서비스 및 상품 불만족, 배송지연, 상품품절 상태 <br />
-                *반품 접수 시 사용 가능: 판매 취소 시 사용가능 외 나머지 <br />
+
+                <div class="col-12">
+                    <h4>배송일*</h4>
+                    <input type="datetime-local" name="bday" #input32>
+                </div>
+
+                <div class="col-12">
+                    <h4>택배사 코드</h4>
+                    <select class="form-select" #input33>
+                        <option value="CJGLS" selected>CJ 대한통운</option>
+                        <option value="KGB">로젠택배</option>
+                        <option value="EPOST">우체국택배</option>
+                        <option value="REGISTPOST">우편등기</option>
+                        <option value="HANJIN">한진택배</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <h4>송장번호</h4>
+                    <input #input34 placeholder="송장번호를 입력하세요." type="text" class="form-control" />
+                </div>
+
+                <div class="col-12">
+                    <h4>바코드 번호</h4>
+                    <input #input35 placeholder="복수입력은 콤마구분 (ex: 123,345,333)" type="text" class="form-control" />
+                </div>
+
+                <div class="col-12">
+                    <h4>E쿠폰 번호</h4>
+                    <input #input36 placeholder="E쿠폰 번호를 입력하세요." type="text" class="form-control" />
+                </div>
+
                 <button type="button" class="btn btn-primary" (click)="excute('ShipProductOrder', {
                     'ProductOrderID': input.value,
-                    'CancelReasonCode': input31.value
+                    'DeliveryMethodCode': input31.value,
+                    'DispatchDate': input32.value,
+                    'DeliveryCompanyCode': input33.value,
+                    'TrackingNumber': input34.value,
+                    'BarcodeNoList': input35.value,
+                    'ECouponNo': input36.value
                     })">실행</button>
             </div>
 
@@ -190,25 +234,36 @@
                     </select>
                 </div>
                 <div class="col-12">
+                    <h4>택배사코드</h4>
+                    <select class="form-select" #input63>
+                        <option value="CJGLS" selected>CJ 대한통운</option>
+                        <option value="KGB">로젠택배</option>
+                        <option value="EPOST">우체국택배</option>
+                        <option value="REGISTPOST">우편등기</option>
+                        <option value="HANJIN">한진택배</option>
+                    </select>
+                </div>
+                <div class="col-12">
                     <h4>수거송장번호</h4>
-                    <input #input63 type="text" class="form-control" />
+                    <input #input64 placeholder="수거송장번호를 입력하세요." type="text" class="form-control" />
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('RequestReturn', {
                     'ProductOrderID': input.value,
                     'ReturnReasonCode': inpute61.value,
                     'CollectDeliveryMethodCode' : input62.value,
-                    'CollectTrackingNumber': inpute63.value
+                    'CollectDeliveryCompanyCode' : input63.value,
+                    'CollectTrackingNumber': inpute64.value
                     })">실행</button>
             </div>
             <div *ngIf="selected == 7" class="col-11">
-                <button type="button" class="btn btn-primary" (click)="excute('ApproveCancelApplication', {
+                <button type="button" class="btn btn-primary" (click)="excute('ApproveReturnApplication', {
                     'ProductOrderID': input.value
                     })">실행</button>
             </div>
             <div *ngIf="selected == 8" class="col-11">
                 <div class="col-12">
-                    <h4>반품거부사유</h4>
-                    <textarea #input81 class="form-control" rows="3"></textarea>
+                    <h4>반품거부사유*</h4>
+                    <textarea placeholder="사유를 입력하세요." #input81 class="form-control" rows="3"></textarea>
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('RejectReturn', {
                     'ProductOrderID': input.value,
@@ -234,11 +289,11 @@
                 </div>
                 <div class="col-12">
                     <h4>반품보류상세사유*</h4>
-                    <textarea #input92 class="form-control" rows="3"></textarea>
+                    <textarea placeholder="사유를 입력하세요." #input92 class="form-control" rows="3"></textarea>
                 </div>
                 <div class="col-12">
                     <h4>기타반품비용</h4>
-                    <input type="number" #input93 class="form-control" />
+                    <input placeholder="기타반품비용을 입력하세요." type="number" #input93 class="form-control" />
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('WithholdReturn', {
                     'ProductOrderID': input.value,
@@ -259,8 +314,21 @@
             </div>
             <div *ngIf="selected == 12" class="col-11">
                 <div class="col-12">
-                    <h4>택배사코드*</h4>
+                    <h4>배송방법 코드*</h4>
                     <select class="form-select" #input121>
+                        <option value="DELIVERY" selected>택배, 등기, 소포</option>
+                        <option value="VISIT_RECEIPT">방문수령</option>
+                        <option value="DIRECT_DELIVERY">직접전달</option>
+                        <option value="QUICK_SVC">퀵서비스</option>
+                        <option value="NOTHING_SIZE">배송없음</option>
+                        <option value="RETURN_DESIGNATED">지정반품 택배반송</option>
+                        <option value="RETURN_DELIVERY">일반반품택배</option>
+                        <option value="RETURN_INDIVIDUAL">직접반송</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <h4>택배사 코드*</h4>
+                    <select class="form-select" #input122>
                         <option value="CJGLS" selected>CJ 대한통운</option>
                         <option value="KGB">로젠택배</option>
                         <option value="EPOST">우체국택배</option>
@@ -270,18 +338,19 @@
                 </div>
                 <div class="col-12">
                     <h4>송장번호</h4>
-                    <input #input122 type="text" class="form-control" />
+                    <input #input123 placeholder="송장번호를 입력하세요." type="text" class="form-control" />
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('ReDeliveryExchange', {
                     'ProductOrderID': input.value,
-                    'ReDeliveryCompanyCode': inpute121.value,
-                    'ReDeliveryTrackingNumber': inpute122.value
+                    'ReDeliveryMethodCode': inpute121.value,
+                    'ReDeliveryCompanyCode': inpute122.value,
+                    'ReDeliveryTrackingNumber': inpute123.value
                     })">실행</button>
             </div>
             <div *ngIf="selected == 13" class="col-11">
                 <div class="col-12">
                     <h4>교환거부사유*</h4>
-                    <textarea #input131 class="form-control" rows="3"></textarea>
+                    <textarea placeholder="사유를 입력하세요." #input131 class="form-control" rows="3"></textarea>
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('RejectExchange', {
                     'ProductOrderID': input.value,
@@ -293,7 +362,6 @@
                     <h4>교환보류타입코드*</h4>
                     <select class="form-select" #input141>
                         <option value="RETURN_DELIVERYFEE" selected>반품 배송비 청구 반품</option>
-                        <option value="VISIT_RECEIPT">방문수령</option>
                         <option value="EXTRAFEEE">추가 비용 청구</option>
                         <option value="RETURN_DELIVERYFEE_AND_EXTRAFEEE">반품 배송비 + 추가 비용 청구</option>
                         <option value="RETURN_PRODUCT_NOT_DELIVERED">반품 상품 미입고</option>
@@ -307,11 +375,11 @@
                 </div>
                 <div class="col-12">
                     <h4>교환보류상세이유*</h4>
-                    <textarea #input142 class="form-control" rows="3"></textarea>
+                    <textarea placeholder="사유를 입력하세요." #input142 class="form-control" rows="3"></textarea>
                 </div>
                 <div class="col-12">
                     <h4>기타교환비용</h4>
-                    <input type="number" #input143 class="form-control" />
+                    <input placeholder="기타교환비용을 입력하세요." type="number" #input143 class="form-control" />
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('WithholdExchange', {
                     'ProductOrderID': input.value,
@@ -325,8 +393,12 @@
                     'ProductOrderID': input.value
                     })">실행</button>
             </div>
+
+            <div *ngIf="selected == 16" class="col-11">
+            </div>
+
         </div>
-        <div class="col-6" style="border: 1px solid; font-size: 14px; margin-bottom: -7;">
+        <div *ngIf="selected < 16" class="col-6" style="min-height: 500px; border: 1px solid; font-size: 14px; margin-bottom: -7;">
             <h4>요청정보</h4>
             <div>
                 <p><b>API:</b> {{reqData.apiName}}</p>
@@ -338,6 +410,13 @@
             <hr>
             <h4>응답값</h4>
             <ngx-json-viewer [json]="resData" [expanded]="false"></ngx-json-viewer>
+        </div>
+
+        <div *ngIf="selected == 16">
+            <ng2-smart-table [settings]="settings" [source]="resData"></ng2-smart-table>
+        </div>
+        <div *ngIf="selected == 17">
+            <ng2-smart-table [settings]="settings2" [source]="resData"></ng2-smart-table>
         </div>
     </div>
 </div>
