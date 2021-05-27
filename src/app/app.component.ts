@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, KeyValueDiffer, KeyValueDiffers, OnInit } from '@angular/core';
-import { NgxSpinnerService } from "ngx-spinner";
+import { Component, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { finalize } from 'rxjs/operators';
 
 interface ReqData {
@@ -17,29 +17,21 @@ interface ResData {
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-    title = 'smart-store';
-
+export class AppComponent {
+    productOrderId = '';
 
     selected = 1;
 
     isCheckReceiverAddressChanged = true;
 
-    // afterClaimStatus: null
-    // afterClaimType: null
-    // afterProductOrderStatus: null
-    // beforeClaimStatus: null
-    // beforeClaimType: null
-    // beforeProductOrderStatus: null
-    // errorCode: "ERR-NC-UNKNOWN"
-    // errorDetail: "Transaction ID: 52CBDCD22D9A4B6CA020296096810A60105A"
-    // errorMessage: "상품주문 정보 조회실패(일시적인 장애)"
-    // mallId: null
-    // parameterJson: "{\"ProductOrderID\": \"\"}"
-    // productId: null
-    // productName: null
-    // productOption: null
-    // productOrderId: null
+    reqData: ReqData = {
+        'apiName': '',
+        'params': {}
+    };
+
+    resData: ResData = {};
+
+    selectedDiffer: KeyValueDiffer<string, any>;
 
     settings = {
         pager: {
@@ -133,15 +125,6 @@ export class AppComponent implements OnInit {
         }
     };
 
-    reqData: ReqData = {
-        'apiName': "",
-        'params': {}
-    };
-
-    resData: ResData = {};
-
-    selectedDiffer: KeyValueDiffer<string, any>;
-
     /**
      * endpoint
      */
@@ -151,17 +134,14 @@ export class AppComponent implements OnInit {
         private spinner: NgxSpinnerService,
         private differs: KeyValueDiffers) {
 
-        this.selectedDiffer = this.differs.find({ "tt": this.selected }).create();
+        this.selectedDiffer = this.differs.find({ 'selected': this.selected }).create();
     }
 
-    ngOnInit(): void {
-
-    }
     ngOnChanges() {
-        console.log("CHANGES")
+        console.log('CHANGES')
     }
     ngDoCheck(): void {
-        const changes = this.selectedDiffer.diff({ "tt": this.selected });
+        const changes = this.selectedDiffer.diff({ 'selected': this.selected });
 
         if (changes) {
             this.init();
@@ -170,11 +150,13 @@ export class AppComponent implements OnInit {
 
     init(): void {
         this.reqData = {
-            'apiName': "",
+            'apiName': '',
             'params': {}
         };
 
         this.resData = {};
+
+        this.productOrderId = '';
     }
 
 
@@ -194,7 +176,7 @@ export class AppComponent implements OnInit {
                 })
             )
             .subscribe((res) => {
-                this.reqData['apiName'] = methodName
+                this.reqData['apiName'] = methodName;
                 this.resData = res['data'];
             });
     }
