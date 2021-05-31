@@ -98,7 +98,7 @@
                 <div class="col-12">
                     <div class="col-12">
                         <h4>발송기한*</h4>
-                        <input type="datetime-local" name="bday" #input21>
+                        <input type="date" name="bday" #input21>
                     </div>
                     <div class="col-12">
                         <h4>발송지연상사유코드*</h4>
@@ -118,7 +118,7 @@
                         'ProductOrderID': productOrderId,
                         'DispatchDueDate': input21.value.substr(0, 10),
                         'DispatchDelayReasonCode': input22.value,
-                        'DispatchDelayDetailReason': inpute23.value
+                        'DispatchDelayDetailReason': input23.value
                         })">실행</button>
                 </div>
             </div>
@@ -139,7 +139,7 @@
 
                 <div class="col-12">
                     <h4>배송일*</h4>
-                    <input type="datetime-local" name="bday" #input32>
+                    <input type="date" name="bday" #input32>
                 </div>
 
                 <div class="col-12">
@@ -198,7 +198,7 @@
                 *반품 접수 시 사용 가능: 판매 취소 시 사용가능 외 나머지 <br />
                 <button type="button" class="btn btn-primary" (click)="excute('CancelSale', {
                     'ProductOrderID': productOrderId,
-                    'CancelReasonCode': 'input41,value'
+                    'CancelReasonCode': input41.value
                     })">실행</button>
             </div>
             <div *ngIf="selected == 5" class="col-11">
@@ -250,10 +250,10 @@
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('RequestReturn', {
                     'ProductOrderID': productOrderId,
-                    'ReturnReasonCode': inpute61.value,
+                    'ReturnReasonCode': input61.value,
                     'CollectDeliveryMethodCode' : input62.value,
                     'CollectDeliveryCompanyCode' : input63.value,
-                    'CollectTrackingNumber': inpute64.value
+                    'CollectTrackingNumber': input64.value
                     })">실행</button>
             </div>
             <div *ngIf="selected == 7" class="col-11">
@@ -268,7 +268,7 @@
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('RejectReturn', {
                     'ProductOrderID': productOrderId,
-                    'RejectDetailContent': inpute81.value
+                    'RejectDetailContent': input81.value
                     })">실행</button>
             </div>
             <div *ngIf="selected == 9" class="col-11">
@@ -298,9 +298,9 @@
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('WithholdReturn', {
                     'ProductOrderID': productOrderId,
-                    'ReturnHoldCode': inpute91.value,
-                    'ReturnHoldDetailContent': inpute92.value,
-                    'EtcFeeDemandAmount': inpute93.value
+                    'ReturnHoldCode': input91.value,
+                    'ReturnHoldDetailContent': input92.value,
+                    'EtcFeeDemandAmount': input93.value
                     })">실행</button>
             </div>
             <div *ngIf="selected == 10" class="col-11">
@@ -343,9 +343,9 @@
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('ReDeliveryExchange', {
                     'ProductOrderID': productOrderId,
-                    'ReDeliveryMethodCode': inpute121.value,
-                    'ReDeliveryCompanyCode': inpute122.value,
-                    'ReDeliveryTrackingNumber': inpute123.value
+                    'ReDeliveryMethodCode': input121.value,
+                    'ReDeliveryCompanyCode': input122.value,
+                    'ReDeliveryTrackingNumber': input123.value
                     })">실행</button>
             </div>
             <div *ngIf="selected == 13" class="col-11">
@@ -355,7 +355,7 @@
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('RejectExchange', {
                     'ProductOrderID': productOrderId,
-                    'RejectDetailContent': inpute131.value
+                    'RejectDetailContent': input131.value
                     })">실행</button>
             </div>
             <div *ngIf="selected == 14" class="col-11">
@@ -384,9 +384,9 @@
                 </div>
                 <button type="button" class="btn btn-primary" (click)="excute('WithholdExchange', {
                     'ProductOrderID': productOrderId,
-                    'ExchangeHoldCode': inpute141.value,
-                    'ExchangeHoldDetailContent': inpute142.value,
-                    'EtcFeeDemandAmount': inpute143.value
+                    'ExchangeHoldCode': input141.value,
+                    'ExchangeHoldDetailContent': input142.value,
+                    'EtcFeeDemandAmount': input143.value
                     })">실행</button>
             </div>
             <div *ngIf="selected == 15" class="col-11">

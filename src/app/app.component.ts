@@ -15,12 +15,12 @@ interface ResData {
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
     productOrderId = '';
 
-    selected = 1;
+    selected = 17;
 
     isCheckReceiverAddressChanged = true;
 
@@ -34,6 +34,10 @@ export class AppComponent {
     selectedDiffer: KeyValueDiffer<string, any>;
 
     settings = {
+        attr: {
+            class: 'table table-bordered table-sm ng2-table'
+        },
+        noDataMessage: "조회가능한 데이터가 존재하지 않습니다.",
         pager: {
             display: false
         },
@@ -52,11 +56,11 @@ export class AppComponent {
             beforeProductOrderStatus: {
                 title: '변경전 주문상태'
             },
-            beforeClaimStatus: {
-                title: '변경전 클레임 상태'
-            },
             beforeClaimType: {
                 title: '변경전 클레임 유형'
+            },
+            beforeClaimStatus: {
+                title: '변경전 클레임 상태'
             },
             // apiName: {
             //     title: '요청 api'
@@ -67,16 +71,20 @@ export class AppComponent {
             afterProductOrderStatus: {
                 title: '변경후 주문상태'
             },
-            afterClaimStatus: {
-                title: '변경후 클레임 상태'
-            },
             afterClaimType: {
                 title: '변경후 클레임 유형'
+            },
+            afterClaimStatus: {
+                title: '변경후 클레임 상태'
             },
         }
     };
 
     settings2 = {
+        attr: {
+            class: 'table table-bordered table-sm ng2-table'
+        },
+        noDataMessage: "조회가능한 데이터가 존재하지 않습니다.",
         pager: {
             display: false
         },
@@ -95,12 +103,13 @@ export class AppComponent {
             beforeProductOrderStatus: {
                 title: '변경전 주문상태'
             },
-            beforeClaimStatus: {
-                title: '변경전 클레임 상태'
-            },
             beforeClaimType: {
                 title: '변경전 클레임 유형'
             },
+            beforeClaimStatus: {
+                title: '변경전 클레임 상태'
+            },
+
             // apiName: {
             //     title: '요청 api'
             // },
@@ -110,11 +119,12 @@ export class AppComponent {
             afterProductOrderStatus: {
                 title: '변경후 주문상태'
             },
-            afterClaimStatus: {
-                title: '변경후 클레임 상태'
-            },
+
             afterClaimType: {
                 title: '변경후 클레임 유형'
+            },
+            afterClaimStatus: {
+                title: '변경후 클레임 상태'
             },
             errorCode: {
                 title: '에러코드'
@@ -135,6 +145,8 @@ export class AppComponent {
         private differs: KeyValueDiffers) {
 
         this.selectedDiffer = this.differs.find({ 'selected': this.selected }).create();
+        this.excute('StoreLogsErrorLists', {});
+
     }
 
     ngOnChanges() {
@@ -146,6 +158,7 @@ export class AppComponent {
         if (changes) {
             this.init();
         }
+
     }
 
     init(): void {
@@ -161,6 +174,7 @@ export class AppComponent {
 
 
     excute(methodName: string, obj: any): void {
+        console.log(obj)
         for (const key in obj) {
             this.reqData.params[key] = obj[key]
         }
