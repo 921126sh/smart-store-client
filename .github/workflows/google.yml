@@ -7,10 +7,10 @@ on:
     branches: [ master ]
 
 env:
-  PROJECT_ID: ${{ secrets.8224317717355192050 }}
-  GCE_INSTANCE: cloud-gate-webhook	  
-  GCE_INSTANCE_ZONE: asia-northeast3-a	
-  
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GCE_INSTANCE: cloud-gate-webhook
+  GCE_INSTANCE_ZONE: asia-northeast3-a
+
 jobs:
   setup-pull-deploy:
     runs-on: ubuntu-latest
@@ -23,7 +23,7 @@ jobs:
         with:
             service_account_key: ${{ secrets.GCP_SA_KEY }}
             project_id: ${{ secrets.GCP_PROJECT_ID }}
-      
+
       - name: Connect GCE And execute docker ps
         run: |-
           gcloud compute ssh "$GCE_INSTANCE" --zone "$GCE_INSTANCE_ZONE" -- 'docker ps'
