@@ -26,4 +26,4 @@ jobs:
       
       - name: Connect GCE And execute docker ps
         run: |-
-          gcloud compute ssh cloud-gate-webhook --zone=asia-northeast3-a
+          gcloud compute ssh "$GCE_INSTANCE" --zone "$GCE_INSTANCE_ZONE" -- 'docker ps'
