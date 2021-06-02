@@ -8,7 +8,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  GCE_INSTANCE: geerio-instance-01	  
+  GCE_INSTANCE: cloud-gate-webhook
   GCE_INSTANCE_ZONE: asia-northeast3-a	
   
 jobs:
