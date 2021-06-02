@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, KeyValueDiffer, KeyValueDiffers } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { finalize } from 'rxjs/operators';
+import { Utils } from './utils';
 
 interface ReqData {
     apiName: string,
@@ -18,149 +19,76 @@ interface ResData {
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    productOrderId = '';
-
+    /**
+     * 선택된 메뉴
+     */
     selected = 17;
 
+    /**
+     * 상품주문식별자
+     */
+    productOrderId = '';
+
+    /**
+     *
+     */
     isCheckReceiverAddressChanged = true;
 
-    reqData: ReqData = {
-        'apiName': '',
-        'params': {}
-    };
+    /**
+     * 요청데이터
+     */
+    reqData: ReqData = {'apiName': '', 'params': {}};
 
+    /**
+     * 응답데이터
+     */
     resData: ResData = {};
 
-    selectedDiffer: KeyValueDiffer<string, any>;
+    /**
+     * 성공실패 테이블 설정 값
+     */
+    successTableSettings = Utils.getSettings(true)
+    errorTableSettings = Utils.getSettings(false);
 
-    settings = {
-        attr: {
-            class: 'table table-bordered table-sm ng2-table'
-        },
-        noDataMessage: "조회가능한 데이터가 존재하지 않습니다.",
-        pager: {
-            display: false
-        },
-        actions: {
-            add: false,
-            edit: false,
-            delete: false,
-        },
-        columns: {
-            productOrderId: {
-                title: '상품ID'
-            },
-            productName: {
-                title: '상품명'
-            },
-            beforeProductOrderStatus: {
-                title: '변경전 주문상태'
-            },
-            beforeClaimType: {
-                title: '변경전 클레임 유형'
-            },
-            beforeClaimStatus: {
-                title: '변경전 클레임 상태'
-            },
-            // apiName: {
-            //     title: '요청 api'
-            // },
-            parameterJson: {
-                title: '요청 파라미터'
-            },
-            afterProductOrderStatus: {
-                title: '변경후 주문상태'
-            },
-            afterClaimType: {
-                title: '변경후 클레임 유형'
-            },
-            afterClaimStatus: {
-                title: '변경후 클레임 상태'
-            },
-        }
-    };
-
-    settings2 = {
-        attr: {
-            class: 'table table-bordered table-sm ng2-table'
-        },
-        noDataMessage: "조회가능한 데이터가 존재하지 않습니다.",
-        pager: {
-            display: false
-        },
-        actions: {
-            add: false,
-            edit: false,
-            delete: false,
-        },
-        columns: {
-            productOrderId: {
-                title: '상품ID'
-            },
-            productName: {
-                title: '상품명'
-            },
-            beforeProductOrderStatus: {
-                title: '변경전 주문상태'
-            },
-            beforeClaimType: {
-                title: '변경전 클레임 유형'
-            },
-            beforeClaimStatus: {
-                title: '변경전 클레임 상태'
-            },
-
-            // apiName: {
-            //     title: '요청 api'
-            // },
-            parameterJson: {
-                title: '요청 파라미터'
-            },
-            afterProductOrderStatus: {
-                title: '변경후 주문상태'
-            },
-
-            afterClaimType: {
-                title: '변경후 클레임 유형'
-            },
-            afterClaimStatus: {
-                title: '변경후 클레임 상태'
-            },
-            errorCode: {
-                title: '에러코드'
-            },
-            errorMessage: {
-                title: '에러메시지'
-            }
-        }
-    };
+    /**
+     * menu 변경 감지 객체
+     */
+    selectedMenuDiffer: KeyValueDiffer<string, any>;
 
     /**
      * endpoint
      */
-    readonly URL = 'http://localhost:8080/';
+    readonly URL = 'http://localhost:8080';
+    // readonly URL = 'http://10.52.5.73:8080/';
 
+    /**
+     * 생성자다.
+     * @param http http 객체
+     * @param spinner spinner 객체
+     * @param differs differs 객체
+     */
     constructor(private http: HttpClient,
         private spinner: NgxSpinnerService,
         private differs: KeyValueDiffers) {
 
-        this.selectedDiffer = this.differs.find({ 'selected': this.selected }).create();
+        this.selectedMenuDiffer = this.differs.find({ 'selected': this.selected }).create();
         this.excute('StoreLogsErrorLists', {});
 
     }
 
-    ngOnChanges() {
-        console.log('CHANGES')
-    }
+    /**
+     * 등록된 model을 watching한다.
+     */
     ngDoCheck(): void {
-        const changes = this.selectedDiffer.diff({ 'selected': this.selected });
-
+        const changes = this.selectedMenuDiffer.diff({ 'selected': this.selected });
         if (changes) {
             this.init();
         }
-
     }
 
+    /**
+     * data set을 초기화한다.
+     */
     init(): void {
         this.reqData = {
             'apiName': '',
@@ -172,9 +100,12 @@ export class AppComponent {
         this.productOrderId = '';
     }
 
-
+    /**
+     * 요청된 http실행을 요청한다.
+     * @param methodName 실행메소드 명
+     * @param obj 동적파라미터 객체
+     */
     excute(methodName: string, obj: any): void {
-        console.log(obj)
         for (const key in obj) {
             this.reqData.params[key] = obj[key]
         }
@@ -195,7 +126,10 @@ export class AppComponent {
             });
     }
 
-    changeGender(e) {
+    /**
+     * 상태를 변화시킨다.
+     */
+    changeGender() {
         this.isCheckReceiverAddressChanged = !this.isCheckReceiverAddressChanged
     }
 }

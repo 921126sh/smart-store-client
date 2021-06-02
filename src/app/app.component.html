@@ -1,7 +1,7 @@
 <ngx-spinner></ngx-spinner>
-<div class="container">
+<div class="container-fluid">
 
-    <div class="row">
+    <div class="row col-12">
         <ul class="nav">
             <li class="nav-item" (click)="selected = 1">
                 <a class="nav-link" [class.active]="selected == 1" href="#">발주_확인처리
@@ -413,11 +413,11 @@
             <ngx-json-viewer [json]="resData" [expanded]="false"></ngx-json-viewer>
         </div>
 
-        <div *ngIf="selected == 16">
-            <ng2-smart-table [settings]="settings" [source]="resData"></ng2-smart-table>
+        <div *ngIf="selected == 16" class="smart-table-container">
+            <ng2-smart-table [settings]="successTableSettings" [source]="resData"></ng2-smart-table>
         </div>
-        <div *ngIf="selected == 17">
-            <ng2-smart-table [settings]="settings2" [source]="resData"></ng2-smart-table>
+        <div *ngIf="selected == 17" class="smart-table-container">
+            <ng2-smart-table [settings]="errorTableSettings" [source]="resData"></ng2-smart-table>
         </div>
     </div>
 </div>
