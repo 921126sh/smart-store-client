@@ -1,4 +1,4 @@
-name: GCE Connect And Execute Script.
+name: GCE Connect And Execute Script
 
 on:
   push:
